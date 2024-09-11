@@ -1,12 +1,16 @@
 package com.example.foodio
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
@@ -14,7 +18,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -41,7 +49,7 @@ class MainActivity : ComponentActivity() {
         val username = intent.getStringExtra("username")
         username?.let { ShoppingCartRepository.setUsername(it) }
         if (intent.getBooleanExtra("first_shopping", false))
-            ShoppingCartRepository.setDiscount(10f)
+            ShoppingCartRepository.setDiscount(20f)
 
         setContent {
             val dataOrException = viewModel.data.value
@@ -60,18 +68,40 @@ class MainActivity : ComponentActivity() {
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (username == "admin") {
-                Button(
-                    onClick = {
-                        val intent = Intent(context, AdminActivity::class.java)
-                        context.startActivity(intent)
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth(0.85f)
-                )
-                {
-                    Text("Dodaj novi produkt")
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterHorizontally)
+                    .padding(horizontal = 10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                if (username == "admin") {
+                    Button(
+                        onClick = {
+                            val intent = Intent(context, AdminActivity::class.java)
+                            context.startActivity(intent)
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth(0.85f)
+                    )
+                    {
+                        Text("Dodaj novi produkt")
+                    }
                 }
+                Spacer(Modifier.weight(1f))
+                Icon(
+                    Icons.Default.Logout,
+                    contentDescription = "",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clickable {
+                            ShoppingCartRepository.clearFoodCart()
+                            context.startActivity(Intent(context, LoginActivity::class.java))
+                            (context as Activity).finish()
+                        }
+                )
             }
 
             categories?.let {
