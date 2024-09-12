@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -18,16 +16,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.chillibits.composenumberpicker.VerticalNumberPicker
-import com.example.foodio.FoodioApplication
 import com.example.foodio.data.CartFood
 import com.example.foodio.data.ShoppingCartRepository
 import com.example.foodio.models.Food
@@ -45,56 +39,43 @@ fun FoodCard(
     }
 
     Card(
-        shape = MaterialTheme.shapes.small,
+        shape = MaterialTheme.shapes.extraSmall,
         modifier = Modifier
             .padding(
-                start = 8.dp,
+                start = 4.dp,
                 end = 8.dp,
                 top = 4.dp,
                 bottom = 4.dp
             ),
-        border = BorderStroke(2.dp, Color.Red),
-        colors = CardDefaults.cardColors(containerColor = Yellow)
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary)
     ) {
-        Row {
+        Row(Modifier.fillMaxWidth()) {
             Column(
                 modifier = Modifier
                     .clickable {
                         Toast
-                            .makeText(context, "You clicked ${food.name}, no more info than this, sorry!", Toast.LENGTH_SHORT)
+                            .makeText(context, "You clicked ${food.name}, no more info than this, sorry! Enjoy food :)", Toast.LENGTH_SHORT)
                             .show()
                     }
                     .padding(all = 12.dp)
-                    .width(width = 280.dp),
+                    .weight(1f),
             ) {
                 food.name?.let { name ->
                     Text(
                         text = name,
-                        modifier = Modifier
-                            .fillMaxWidth(0.85f)
-                            .wrapContentWidth(Alignment.Start),
-                        color = Color.Red,
+                        color = MaterialTheme.colorScheme.primary,
                         fontSize = 25.sp
                     )
                 }
                 food.description?.let { description ->
                     Text(
                         text = description,
-                        modifier = Modifier
-                            .wrapContentWidth(Alignment.End),
-                        color = Color.DarkGray,
+                        color = MaterialTheme.colorScheme.onPrimary,
                         fontSize = 20.sp
                     )
                 }
-                food.price?.let { price ->
-                    Text(
-                        text = "Cijena: ${price}€",
-                        modifier = Modifier
-                            .wrapContentWidth(Alignment.End),
-                        color = Color.DarkGray,
-                        fontSize = 25.sp
-                    )
-                }
+
             }
 
             food.amount?.let {
@@ -111,6 +92,15 @@ fun FoodCard(
                     }
                 )
             }
+        }
+
+        food.price?.let { price ->
+            Text(
+                modifier = Modifier.padding(start = 12.dp, bottom = 6.dp),
+                text = "Price: ${price}€",
+                color = MaterialTheme.colorScheme.onSecondary,
+                fontSize = 25.sp
+            )
         }
     }
 }

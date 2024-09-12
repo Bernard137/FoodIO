@@ -19,17 +19,17 @@
         <activity
             android:name=".CheckoutActivity"
             android:exported="false"
-            android:label="@string/title_activity_checkout"
+            android:label="CheckoutActivity"
             android:theme="@style/Theme.FoodIO" />
         <activity
             android:name=".AdminActivity"
             android:exported="false"
-            android:label="@string/title_activity_admin"
+            android:label="AdminActivity"
             android:theme="@style/Theme.FoodIO" />
         <activity
             android:name=".LoginActivity"
             android:exported="true"
-            android:label="@string/title_activity_login"
+            android:label="Login and Registration"
             android:theme="@style/Theme.SplashScreen.MySplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

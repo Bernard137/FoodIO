@@ -65,7 +65,7 @@ data class Credentials(
     var newUser: Boolean = false,
 ) {
     fun isNotEmpty(): Boolean {
-        return login.isNotEmpty() && pwd.isNotEmpty()
+        return login.isNotEmpty() && pwd.isNotEmpty() && (login.length >= 3) && (pwd.length >= 3)
     }
 
     fun isCredentialsValid(): User? {
@@ -114,7 +114,7 @@ fun LoginForm() {
                 .padding(horizontal = 30.dp)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_launcher_background),
+                painter = painterResource(id = R.drawable.refresh_hero_home_sg),
                 contentDescription = "LoginScreenImage"
             )
             Spacer(modifier = Modifier.height(60.dp))
@@ -145,7 +145,7 @@ fun LoginForm() {
             }
             Spacer(modifier = Modifier.height(10.dp))
             LabeledCheckbox(
-                label = "New User?",
+                label = "I'm new to this app",
                 onCheckChanged = {
                     credentials = credentials.copy(newUser = !credentials.newUser)
                 },
@@ -161,7 +161,7 @@ fun LoginField(
     onChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     label: String = "Login",
-    placeholder: String = "Enter your Login",
+    placeholder: String = "Enter your Login (three or more characters)",
 ) {
     val focusManager = LocalFocusManager.current
     val leadingIcon = @Composable {
@@ -195,7 +195,7 @@ fun PasswordField(
     submit: () -> Unit,
     modifier: Modifier = Modifier,
     label: String = "Password",
-    placeholder: String = "Enter your Password",
+    placeholder: String = "Enter your Password (three or more characters)",
 ) {
     var isPasswordVisible by remember { mutableStateOf(false) }
 
@@ -258,7 +258,7 @@ fun LabeledCheckbox(
 @Preview(showBackground = true, device = "id:Nexus One", showSystemUi = true)
 @Composable
 fun LoginFormPreview() {
-    FoodIOTheme {
+    FoodIOTheme(dynamicColor = false) {
         LoginForm()
     }
 }
@@ -266,7 +266,7 @@ fun LoginFormPreview() {
 @Preview(showBackground = true, device = "id:Nexus One", showSystemUi = true)
 @Composable
 fun LoginFormPreviewDark() {
-    FoodIOTheme(darkTheme = true) {
+    FoodIOTheme(darkTheme = true, dynamicColor = false) {
         LoginForm()
     }
 }

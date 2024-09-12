@@ -1,5 +1,6 @@
 package com.example.foodio.services
 
+import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
@@ -45,6 +46,7 @@ object Firebase {
                 intent.putExtra("username", username)
                 intent.putExtra("first_shopping", true)
                 context.startActivity(intent)
+                (context as Activity).finish()
 
                 Toast.makeText(context, "Registration is done successfully.!", Toast.LENGTH_SHORT).show()
             }

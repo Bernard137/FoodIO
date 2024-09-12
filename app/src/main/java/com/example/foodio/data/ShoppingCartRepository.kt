@@ -1,6 +1,7 @@
 package com.example.foodio.data
 
 import com.example.foodio.models.Food
+import java.math.RoundingMode
 
 data class CartFood(var amountToBuy: Int = 0, val food: Food)
 
@@ -46,6 +47,6 @@ object ShoppingCartRepository {
             totalPrice += item.amountToBuy * item.food.price!!
             totalPrice -= totalPrice * (this.discount / 100)
         }
-        return totalPrice
+        return totalPrice.toBigDecimal().setScale(2, RoundingMode.UP).toFloat()
     }
 }

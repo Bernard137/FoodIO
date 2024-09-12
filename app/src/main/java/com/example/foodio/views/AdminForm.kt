@@ -1,9 +1,7 @@
 package com.example.foodio.views
 
 import android.app.Activity
-import android.content.Context
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,6 +23,7 @@ import androidx.compose.material.icons.filled.PriceChange
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -35,7 +34,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -95,7 +93,7 @@ fun AdminTextField(
     )
 }
 
-fun checkAdminValues(values: ProductLink, context: Context): Boolean {
+fun checkAdminValues(values: ProductLink): Boolean {
     if (values.isNotEmpty()) {
         Firebase.addProductToStorage(
             category = values.category,
@@ -110,103 +108,102 @@ fun checkAdminValues(values: ProductLink, context: Context): Boolean {
 }
 
 @Composable
-fun AdminForm(modifier: Modifier = Modifier) {
-    var productLink by remember { mutableStateOf(ProductLink()) }
-    val context = LocalContext.current
+fun AdminForm() {
+    Surface {
+        var productLink by remember { mutableStateOf(ProductLink()) }
+        val context = LocalContext.current
 
-    Image(
-        painter = painterResource(com.chillibits.composenumberpicker.R.drawable.ic_arrow_left),
-        contentDescription = "AdminScreenReturn",
-        modifier = Modifier
-            .size(70.dp)
-            .padding(10.dp)
-            .background(Color.Blue)
-            .clickable {
-                val contFinish = context as Activity
-                contFinish.finish()
-            }
-    )
+        MyBackButton(context)
 
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 30.dp)
-    ) {
-        Text(
-            "Admin Console, Add new product in Database!",
-            fontFamily = FontFamily.Cursive,
-            fontSize = TextUnit(10f, TextUnitType.Em),
-            textAlign = TextAlign.Center,
-            lineHeight = TextUnit(0.8f, TextUnitType.Em)
-        )
-        Spacer(modifier = Modifier.height(50.dp))
-        AdminTextField(
-            value = productLink.category,
-            onChange = { data -> productLink = productLink.copy(category = data) },
-            icon = Icons.Default.Category,
-            label = "Category",
-            placeholder = "Example: Hamburger"
-        )
-        AdminTextField(
-            value = productLink.foodName,
-            onChange = { data -> productLink = productLink.copy(foodName = data) },
-            icon = Icons.Default.DriveFileRenameOutline,
-            label = "Food Name",
-            placeholder = "Example: Hamburger_0"
-        )
-        AdminTextField(
-            value = productLink.foodDescription,
-            onChange = { data -> productLink = productLink.copy(foodDescription = data) },
-            icon = Icons.Default.Description,
-            label = "Food Description",
-            placeholder = "Example: Lorem Ipsum Es"
-        )
-        AdminTextField(
-            value = productLink.foodPrice.toString(),
-            onChange = { data ->
-                productLink = try {
-                    productLink.copy(foodPrice = data.toFloat())
-                } catch (e: NumberFormatException) {
-                    productLink.copy(foodPrice = 0f)
-                }
-            },
-            icon = Icons.Default.PriceChange,
-            label = "Food Price",
-            placeholder = "Example: 50.0"
-        )
-        AdminTextField(
-            value = productLink.foodAmount.toString(),
-            onChange = { data ->
-                productLink = try {
-                    productLink.copy(foodAmount = data.toInt())
-                } catch (e: NumberFormatException) {
-                    productLink.copy(foodAmount = 0)
-                }
-            },
-            icon = Icons.Default.Numbers,
-            label = "Food Amount",
-            placeholder = "Example: 100.0"
-        )
-        Spacer(modifier = Modifier.height(60.dp))
-        Button(
-            onClick = {
-                if (!checkAdminValues(productLink, context)) productLink = ProductLink()
-            },
-            enabled = productLink.isNotEmpty(),
-            shape = RoundedCornerShape(5.dp),
-            modifier = Modifier.fillMaxWidth()
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 20.dp)
         ) {
-            Text("Add Product!")
+            Text(
+                "Admin Console, Add new product in Database!",
+                fontFamily = FontFamily.Cursive,
+                fontSize = TextUnit(10f, TextUnitType.Em),
+                textAlign = TextAlign.Center,
+                lineHeight = TextUnit(0.8f, TextUnitType.Em)
+            )
+            Spacer(modifier = Modifier.height(50.dp))
+            AdminTextField(
+                value = productLink.category,
+                onChange = { data -> productLink = productLink.copy(category = data) },
+                icon = Icons.Default.Category,
+                label = "Category",
+                placeholder = "Example: Hamburger"
+            )
+            AdminTextField(
+                value = productLink.foodName,
+                onChange = { data -> productLink = productLink.copy(foodName = data) },
+                icon = Icons.Default.DriveFileRenameOutline,
+                label = "Food Name",
+                placeholder = "Example: Hamburger_0"
+            )
+            AdminTextField(
+                value = productLink.foodDescription,
+                onChange = { data -> productLink = productLink.copy(foodDescription = data) },
+                icon = Icons.Default.Description,
+                label = "Food Description",
+                placeholder = "Example: Lorem Ipsum Es"
+            )
+            AdminTextField(
+                value = productLink.foodPrice.toString(),
+                onChange = { data ->
+                    productLink = try {
+                        productLink.copy(foodPrice = data.toFloat())
+                    } catch (e: NumberFormatException) {
+                        productLink.copy(foodPrice = 0f)
+                    }
+                },
+                icon = Icons.Default.PriceChange,
+                label = "Food Price",
+                placeholder = "Example: 50.0"
+            )
+            AdminTextField(
+                value = productLink.foodAmount.toString(),
+                onChange = { data ->
+                    productLink = try {
+                        productLink.copy(foodAmount = data.toInt())
+                    } catch (e: NumberFormatException) {
+                        productLink.copy(foodAmount = 0)
+                    }
+                },
+                icon = Icons.Default.Numbers,
+                label = "Food Amount",
+                placeholder = "Example: 100.0"
+            )
+            Spacer(modifier = Modifier.height(60.dp))
+            Button(
+                onClick = {
+                    if (!checkAdminValues(productLink)) productLink = ProductLink()
+                },
+                enabled = productLink.isNotEmpty(),
+                shape = RoundedCornerShape(5.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Add Product!")
+            }
         }
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun AdminFormPreview() {
-    FoodIOTheme {
+    FoodIOTheme(dynamicColor = false) {
+        AdminForm()
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun AdminFormPreviewDark() {
+    FoodIOTheme(dynamicColor = false, darkTheme = true) {
         AdminForm()
     }
 }

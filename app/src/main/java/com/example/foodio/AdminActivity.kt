@@ -12,7 +12,7 @@ class AdminActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            FoodIOTheme {
+            FoodIOTheme(dynamicColor = false) {
                 AdminForm()
             }
         }

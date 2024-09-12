@@ -17,22 +17,21 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Navy,
-    secondary = PurpleGrey80,
+    primary = Color(0xFF8AC186),
+    secondary = Color(0xFFfc7b03),
     tertiary = Pink80,
-    surface = Blue,
-    onSurface = Navy,
-    onPrimary = Chartreuse
+    surface = Color(0xFF17181C),
+    onSurface = Color(0xFF8AC186),
+    onPrimary = Color(0xFFF2E1E3)
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = LightBlue,
-    secondary = PurpleGrey40,
+    primary = Color(0xFFA52967), // Icons
+    secondary = Color(0xFFfc7b03),
     tertiary = Pink40,
-    surface = Blue,
-    onSurface = Color.White,
-    onPrimary = Navy
-
+    surface = Color(0xFFF2E1E3), //Background
+    onSurface = Color(0xFFA52967), // Text Button
+    onPrimary = Chartreuse
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
     surface = Color(0xFFFFFBFE),

@@ -1,40 +1,13 @@
 package com.example.foodio
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Logout
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
-import com.example.foodio.data.DataOrException
 import com.example.foodio.data.ShoppingCartRepository
-import com.example.foodio.models.Category
-import com.example.foodio.utils.CircularProgressBar
+import com.example.foodio.ui.theme.FoodIOTheme
 import com.example.foodio.viewmodel.CategoryViewModel
-import com.example.foodio.views.CategoryCard
+import com.example.foodio.views.CategoriesActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -54,104 +27,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             val dataOrException = viewModel.data.value
             if (username != null) {
-                CategoriesActivity(dataOrException, username)
-            }
-        }
-    }
-
-    @Composable
-    fun CategoriesActivity(dataOrException: DataOrException<List<Category>, Exception>, username: String) {
-        val categories = dataOrException.data
-        val context = LocalContext.current
-
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.CenterHorizontally)
-                    .padding(horizontal = 10.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                if (username == "admin") {
-                    Button(
-                        onClick = {
-                            val intent = Intent(context, AdminActivity::class.java)
-                            context.startActivity(intent)
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth(0.85f)
-                    )
-                    {
-                        Text("Dodaj novi produkt")
-                    }
+                FoodIOTheme(dynamicColor = false) {
+                    CategoriesActivity(dataOrException, username, viewModel)
                 }
-                Spacer(Modifier.weight(1f))
-                Icon(
-                    Icons.Default.Logout,
-                    contentDescription = "",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clickable {
-                            ShoppingCartRepository.clearFoodCart()
-                            context.startActivity(Intent(context, LoginActivity::class.java))
-                            (context as Activity).finish()
-                        }
-                )
-            }
-
-            categories?.let {
-                LazyColumn {
-                    items(
-                        items = categories
-                    ) { category ->
-                        CategoryCard(category = category)
-                    }
-                }
-            }
-        }
-
-        val e = dataOrException.e
-        e?.let {
-            Text(
-                text = e.message!!,
-                modifier = Modifier.padding(16.dp)
-            )
-        }
-
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            CircularProgressBar(
-                isDisplayed = viewModel.loading.value
-            )
-            Button(onClick = {
-                val intent = Intent(context, CheckoutActivity::class.java)
-                context.startActivity(intent)
-            },
-                modifier = Modifier
-                    .offset(130.dp, 350.dp)
-                    .size(100.dp)
-            ) {
-                Text("Buy")
-            }
-        }
-    }
-
-    override fun onTopResumedActivityChanged(isTopResumedActivity: Boolean) {
-        super.onTopResumedActivityChanged(isTopResumedActivity)
-
-        val username = intent.getStringExtra("username")
-        setContent {
-            val dataOrException = viewModel.data.value
-            if (username != null) {
-                CategoriesActivity(dataOrException, username)
             }
         }
     }
