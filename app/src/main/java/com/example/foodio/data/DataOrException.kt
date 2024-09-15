@@ -1,4 +1,3 @@
-
 package com.example.foodio.data
 
 data class DataOrException<T, E : Exception?>(
