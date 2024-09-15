@@ -1,4 +1,3 @@
-
 package com.example.foodio.ui.theme
 
 import androidx.compose.ui.graphics.Color
