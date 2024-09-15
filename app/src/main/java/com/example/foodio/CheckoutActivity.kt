@@ -1,4 +1,3 @@
-
 package com.example.foodio
 
 import android.os.Bundle
