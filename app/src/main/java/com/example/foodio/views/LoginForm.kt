@@ -1,6 +1,5 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-
 package com.example.foodio.views
 
 import android.app.Activity
