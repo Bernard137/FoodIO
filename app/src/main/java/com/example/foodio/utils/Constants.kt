@@ -1,3 +1,4 @@
+
 package com.example.foodio.utils
 
 object Constants {
