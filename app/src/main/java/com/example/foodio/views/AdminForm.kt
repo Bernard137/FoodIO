@@ -1,4 +1,3 @@
-
 package com.example.foodio.views
 
 import android.app.Activity
