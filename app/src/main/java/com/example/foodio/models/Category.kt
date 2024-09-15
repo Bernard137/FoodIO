@@ -1,3 +1,4 @@
+
 package com.example.foodio.models
 
 import com.google.firebase.firestore.ServerTimestamp
